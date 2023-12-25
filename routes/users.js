@@ -38,6 +38,12 @@ router.post('/login', async (req, res, next) => {
                 </div>`,
    })(req, res, next);
 });
+
+router.get('/verify', (req, res) => {
+   res.render('verify', {
+      layout: 'verify'
+   });
+});
 //Verifikasi email
 router.get('/activation/', async (req, res) => {
    let id = req.query.id;
@@ -73,6 +79,7 @@ router.get('/activation/', async (req, res) => {
       }
    });
 });
+
 router.get('/signup', notAuthenticated, (req, res) => {
    res.render('signup', {
       layout: 'signup'
@@ -122,7 +129,7 @@ router.post('/signup', async (req, res) => {
             }
             const activationToken = createActivationToken(newUser)
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
-            await sendEmail.inboxGmailRegist(email, otp-xd);
+            await sendEmail.inboxGmailRegist(email, otp);
             req.flash('success_msg', 'You are now registered, please check your email to verify your account');
             return res.redirect('/users/login');
          }
