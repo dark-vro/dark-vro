@@ -59,14 +59,16 @@ router.post('/verify', async (req, res) => {
             email,
             password
     } = user
-let checkingOTP = await checkOTP(username, otp);
+
+    let checkingOTP = await User.find({ otp: otp, id: username });
+
    if (checkingOTP) {
          req.flash('error_msg', "Invalid OTP")
       } else {
    
          let checking = await checkUsername(username);
          let checkingEmail = await checkEmail(email);
-     if (checking) {
+     if (!checking) {
             req.flash('error_msg', "Sorry. A user with that username already exists. Please use another username!")
             res.redirect("/users/signup");
          } else if (checkingEmail) {
