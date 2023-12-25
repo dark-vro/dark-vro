@@ -15,6 +15,9 @@ const {
    addUser
 } = require('../MongoDB/function');
 const {
+	User
+} = require('../MongoDB/schema');
+const {
    notAuthenticated
 } = require('../lib/auth');
 const sendEmail = require('../lib/email');
@@ -117,7 +120,7 @@ router.post('/signup', async (req, res) => {
             req.flash('error_msg', 'A user with the same Username already exists');
             return res.redirect('/users/signup');
          } else {
-        	
+        	await new User({otp: otp, id: username})
             let hashedPassword = getHashedPassword(pass);
             let apikey = randomText(10);
             const newUser = {

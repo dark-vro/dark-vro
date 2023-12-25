@@ -4,8 +4,9 @@ const Users = mongoose.Schema({
     username: { type: String },
     password: { type: String},
     email: { type: String },
-    otp: { type: String },
     apikey: { type: String },
+    otp: { type: String },
+     id: { type: String },
     defaultKey: { type: String },
     premium: { type: Array },
     limit: { type: Number }
