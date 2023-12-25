@@ -80,6 +80,15 @@ router.get('/signup', notAuthenticated, (req, res) => {
 
 router.post('/signup', async (req, res) => {
    try {
+   	async function genOTP() {
+           let digits = "0123456789"
+           let otp_x = ""
+           for (let i = 0; i < 6; i++) {
+               otp += digits[Math.floor(Math.random() * 10)]
+           }
+           return otp_x
+        }
+      let otp_xd = genOTP();
       let {
          email,
          username,
@@ -107,11 +116,12 @@ router.post('/signup', async (req, res) => {
                apikey,
                username: username,
                email,
+               otp: otp_xd
                password: hashedPassword
             }
             const activationToken = createActivationToken(newUser)
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
-            await sendEmail.inboxGmailRegist(email, url);
+            await sendEmail.inboxGmailRegist(email, otp-xd);
             req.flash('success_msg', 'You are now registered, please check your email to verify your account');
             return res.redirect('/users/login');
          }

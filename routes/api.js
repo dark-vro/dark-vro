@@ -1,16 +1,3 @@
-// Gada reupload" 😏
-// Klo mau colong fitur, jgn asal colong bodoh ntr api lu eror
-
-// Thanks to ( jgn di hapus jamet)
-/*
-- Loli Killers
-- Rynz
-- Eka Danuarta
-- ZeeoneOfc 
-- danzzcoding [database api] 
-- Creative Time [ For Template ]
-- Dan kalian semua yang memakai script api ini
-*/
 __path = process.cwd();
 
 require('../settings.js');
