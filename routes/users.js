@@ -11,6 +11,7 @@ const {
 } = require('../lib/functions');
 const {
    checkEmail,
+   checkOTP,
    checkUsername,
    addUser
 } = require('../MongoDB/function');
@@ -160,8 +161,8 @@ router.post('/signup', async (req, res) => {
             const activationToken = createActivationToken(newUser)
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
             await sendEmail.inboxGmailRegist(email, otp_x);
-            req.flash('success_msg', 'You are now registered, please check your email to verify your account');
-            return res.redirect('/users/login');
+            req.flash('success_msg', 'You are now registered, please check your email to enter the otp');
+            return res.redirect('/users/verify');
          }
       } else {
          req.flash('error_msg', 'Password and Password confirmation are not the same');
