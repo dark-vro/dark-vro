@@ -58,10 +58,11 @@ router.post('/verify', async (req, res) => {
             apikey,
             username,
             email,
-            password
+            password,
+            id
     } = user
 
-    let checkingOTP = await User.find({ otp: otp, id: username });
+    let checkingOTP = await User.find({ otp: otp, id:  id});
 
    if (!checkingOTP) {
          req.flash('error_msg', "Invalid OTP")
