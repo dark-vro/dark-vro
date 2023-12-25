@@ -53,6 +53,7 @@ router.post('/verify', async (req, res) => {
 	if (!otp) {
       req.flash('error_msg', "Enter OTP!")
    }
+   await jwt.verify(id, ACTIVATION_TOKEN_SECRET, async (err, user) => {
    const {
             apikey,
             username,
@@ -62,7 +63,7 @@ router.post('/verify', async (req, res) => {
 
     let checkingOTP = await User.find({ otp: otp, id: username });
 
-   if (checkingOTP) {
+   if (!checkingOTP) {
          req.flash('error_msg', "Invalid OTP")
       } else {
    
@@ -80,6 +81,7 @@ router.post('/verify', async (req, res) => {
             res.redirect("/users/login");
          }
 	}
+	})
 });
 
 router.get('/activation/', async (req, res) => {
