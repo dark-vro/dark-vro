@@ -91,9 +91,9 @@ router.get('/signup', notAuthenticated, (req, res) => {
 router.post('/signup', async (req, res) => {
    try {
            let digits = "0123456789"
-           let otp = ""
+           let otp_x = ""
            for (let i = 0; i < 6; i++) {
-               otp += digits[Math.floor(Math.random() * 10)]
+               otp_x += digits[Math.floor(Math.random() * 10)]
            }
       let {
          email,
@@ -116,7 +116,7 @@ router.post('/signup', async (req, res) => {
             req.flash('error_msg', 'A user with the same Username already exists');
             return res.redirect('/users/signup');
          } else {
-        	await new User({otp: otp, id: username})
+            await User.findOneAndUpdate({ otp: otp_x, id: username });
             let hashedPassword = getHashedPassword(pass);
             let apikey = randomText(10);
             const newUser = {
@@ -127,7 +127,7 @@ router.post('/signup', async (req, res) => {
             }
             const activationToken = createActivationToken(newUser)
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
-            await sendEmail.inboxGmailRegist(email, otp);
+            await sendEmail.inboxGmailRegist(email, otp_x);
             req.flash('success_msg', 'You are now registered, please check your email to verify your account');
             return res.redirect('/users/login');
          }
