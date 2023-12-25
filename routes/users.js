@@ -12,8 +12,7 @@ const {
 const {
    checkEmail,
    checkUsername,
-   addUser,
-   setOTP
+   addUser
 } = require('../MongoDB/function');
 const {
    notAuthenticated
@@ -118,7 +117,7 @@ router.post('/signup', async (req, res) => {
             req.flash('error_msg', 'A user with the same Username already exists');
             return res.redirect('/users/signup');
          } else {
-        	setOTP(username, otp)
+        	
             let hashedPassword = getHashedPassword(pass);
             let apikey = randomText(10);
             const newUser = {

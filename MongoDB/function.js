@@ -115,9 +115,3 @@ async function checkOTP(otp) {
    }
 }
 module.exports.checkOTP = checkOTP
-
-async function setOTP(username, otp) {
-   let obj = { otp, username };
-   User.create(obj);
-}
-module.exports.setOTP = setOTP
