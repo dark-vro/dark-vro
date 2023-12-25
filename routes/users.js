@@ -90,15 +90,11 @@ router.get('/signup', notAuthenticated, (req, res) => {
 
 router.post('/signup', async (req, res) => {
    try {
-   	async function genOTP() {
            let digits = "0123456789"
-           let otp_x = ""
+           let otp = ""
            for (let i = 0; i < 6; i++) {
-               otp_x += digits[Math.floor(Math.random() * 10)]
+               otp += digits[Math.floor(Math.random() * 10)]
            }
-           return otp_x
-        }
-      let otp = genOTP();
       let {
          email,
          username,
