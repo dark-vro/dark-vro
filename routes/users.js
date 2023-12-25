@@ -92,9 +92,9 @@ router.post('/signup', async (req, res) => {
            let digits = "0123456789"
            let otp_x = ""
            for (let i = 0; i < 6; i++) {
-               otp += digits[Math.floor(Math.random() * 10)]
+               otp_x += digits[Math.floor(Math.random() * 10)]
            }
-           return otp
+           return otp_x
         }
       let otp = genOTP();
       let {
