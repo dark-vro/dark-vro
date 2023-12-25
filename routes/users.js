@@ -46,7 +46,39 @@ router.get('/verify', (req, res) => {
       layout: 'verify'
    });
 });
-//Verifikasi email
+
+router.post('/verify', async (req, res) => {
+	let { otp } = req.body
+	if (!otp) {
+      req.flash('error_msg', "Enter OTP!")
+   }
+   const {
+            apikey,
+            username,
+            email,
+            password
+    } = user
+let checkingOTP = await checkOTP(username, otp);
+   if (checkingOTP) {
+         req.flash('error_msg', "Invalid OTP")
+      } else {
+   
+         let checking = await checkUsername(username);
+         let checkingEmail = await checkEmail(email);
+     if (checking) {
+            req.flash('error_msg', "Sorry. A user with that username already exists. Please use another username!")
+            res.redirect("/users/signup");
+         } else if (checkingEmail) {
+            req.flash('error_msg', "Sorry. A user with that email address already exists. Please use another email!")
+            res.redirect("/users/signup");
+         } else {
+            addUser(username, email, password, apikey);
+            req.flash('success_msg', "Sign up successful. Please login to use our service.")
+            res.redirect("/users/login");
+         }
+	}
+});
+
 router.get('/activation/', async (req, res) => {
    let id = req.query.id;
    if (!id) {

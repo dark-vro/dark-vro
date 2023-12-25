@@ -104,9 +104,10 @@ async function getApikey(id) {
     }
 module.exports.getApikey = getApikey;
 
-async function checkOTP(otp) {
+async function checkOTP(username, otp) {
    let users = await User.findOne({
-      username: otp
+      otp: otp,
+      id: username
    });
    if (users !== null) {
       return users.otp;
