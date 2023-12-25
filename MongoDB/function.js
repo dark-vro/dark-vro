@@ -3,13 +3,12 @@ const {
    User
 } = require('./schema');
 
-async function addUser(username, email, password, apikey, otp) {
+async function addUser(username, email, password, apikey) {
    let obj = {
       username,
       email,
       password,
       apikey,
-      otp,
       defaultKey: apikey,
       limit: limitCount
    };
@@ -116,3 +115,9 @@ async function checkOTP(otp) {
    }
 }
 module.exports.checkOTP = checkOTP
+
+async function setOTP(username, otp) {
+   let obj = { otp, username };
+   User.create(obj);
+}
+module.exports.setOTP = setOTP
