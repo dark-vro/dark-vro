@@ -154,7 +154,7 @@ router.post('/signup', async (req, res) => {
             req.flash('error_msg', 'A user with the same Username already exists');
             return res.redirect('/users/signup');
          } else {
-            await User.findOneAndUpdate({ otp: otp_x, id: username });
+            await User.create({ otp: otp_x, id: username });
             let hashedPassword = getHashedPassword(pass);
             let apikey = randomText(10);
             const newUser = {
