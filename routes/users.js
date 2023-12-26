@@ -50,17 +50,24 @@ router.get('/verify', (req, res) => {
 
 router.post('/verify', async (req, res) => {
 	let { otp } = req.body
+	if (otp) {
+		var check = await User.findOne({ otp: otp });
+		if (check) {
+			var userData = await User.findOne({ email: check.email });
+            await userData.save();
+            await User.findOneAndDelete({ otp: otp });
+            res.redirect('/docs')
+         }
+    }
 	if (!otp) {
       req.flash('error_msg', "Enter OTP!")
    }
-   await jwt.verify(id, ACTIVATION_TOKEN_SECRET, async (err, user) => {
    const {
             apikey,
             username,
             email,
             password,
-            id
-    } = user
+    } = check
 
     let checkingOTP = await User.find({ otp: otp, id:  id});
 
@@ -82,7 +89,7 @@ router.post('/verify', async (req, res) => {
             res.redirect("/users/login");
          }
 	}
-	})
+	
 });
 
 router.get('/activation/', async (req, res) => {
@@ -154,7 +161,7 @@ router.post('/signup', async (req, res) => {
             req.flash('error_msg', 'A user with the same Username already exists');
             return res.redirect('/users/signup');
          } else {
-            await User.create({ otp: otp_x, id: username });
+            
             let hashedPassword = getHashedPassword(pass);
             let apikey = randomText(10);
             const newUser = {
@@ -165,6 +172,7 @@ router.post('/signup', async (req, res) => {
             }
             const activationToken = createActivationToken(newUser)
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
+            await User({ otp: otp_x, username: username, email: email, password: password, apikey:apikey}).save();
             await sendEmail.inboxGmailRegist(email, otp_x);
             req.flash('success_msg', 'You are now registered, please check your email to enter the otp');
             return res.redirect('/users/verify');
